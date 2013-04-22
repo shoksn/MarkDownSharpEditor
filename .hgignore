@@ -1,0 +1,11 @@
+syntax: glob
+*.suo
+*.user
+*.log
+ResHacker.ini
+Bin/*
+obj/*
+bin/*
+Release/*
+Debug/*
+TestResults/*
