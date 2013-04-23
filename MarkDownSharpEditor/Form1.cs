@@ -1831,8 +1831,7 @@ namespace MarkDownSharpEditor
 				
 			foreach ( MarkdownSyntaxKeyword mk in MarkdownSyntaxKeywordAarray )
 			{
-				Regex r = new Regex(mk.RegText, RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-				MatchCollection col = r.Matches(richTextBox1.Text, SearchStartIndex);
+				MatchCollection col = mk.Regex.Matches(richTextBox1.Text, SearchStartIndex);
 
 				if ( col.Count > 0 )
 				{
