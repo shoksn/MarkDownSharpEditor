@@ -13,6 +13,8 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Documents;
+using System.Reactive.Linq;
+using System.Threading;
 
 using anrControls;
 using mshtml;
@@ -71,6 +73,16 @@ namespace MarkDownSharpEditor
 			//WebBrowserClickSoundOFF();
 			CoInternetSetFeatureEnabled(FEATURE_DISABLE_NAVIGATION_SOUNDS, SET_FEATURE_ON_PROCESS, true);
 
+            //richTextBox1_TextChangedイベントの発火設定
+            //IME OFF状態で入力した際にTextChangedイベントが連続で発生するので、
+            //パフォーマンスのためにイベント数を抑制する
+            Observable.FromEventPattern(richTextBox1, "TextChanged")
+                      .Throttle(TimeSpan.FromMilliseconds(1000))
+                      .ObserveOn(SynchronizationContext.Current)
+                      .Subscribe(e =>
+                      {
+                          richTextBox1_TextChanged(this.richTextBox1, e.EventArgs);
+                      });
 		}
 
 		//----------------------------------------------------------------------
